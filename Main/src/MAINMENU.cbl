@@ -29,18 +29,18 @@
        01  WS-HEALTH-CONDITION PIC X(30).
        01  WS-DATE-OF-VISIT PIC X(10).
        01  NEW-LINE PIC X(1) VALUE X'0A'.
-       01  FRA-ME PIC X(35) VALUE "===================================".
+       01  FRA-ME PIC X(35) VALUE "===================================".        *> for main header terminal-based design purposes
       *
        PROCEDURE DIVISION.
        MAIN-PARAGRAPH.
-           DISPLAY FRA-ME
+           DISPLAY FRA-ME.
            DISPLAY "      MEDIKA PATIENT RECORD".
-           DISPLAY FRA-ME
+           DISPLAY FRA-ME.
            DISPLAY "            MAIN MENU".
-           DISPLAY FRA-ME
-           DISPLAY NEW-LINE
-           DISPLAY "Good Day, Admin!"
-           DISPLAY "What would you like to do?"
+           DISPLAY FRA-ME.
+           DISPLAY NEW-LINE.
+           DISPLAY "Good Day, Admin!".
+           DISPLAY "What would you like to do?".
            PERFORM DISPLAY-MENU.
            DISPLAY NEW-LINE
            DISPLAY "Enter a letter to proceed: " WITH NO ADVANCING
@@ -69,7 +69,7 @@
            STOP RUN.
       *
        DISPLAY-MENU.
-           DISPLAY NEW-LINE
+           DISPLAY NEW-LINE.
            DISPLAY "a) Add New Patient Record".
            DISPLAY "b) View All Patient Records".
            DISPLAY "c) Search Patient Record".
