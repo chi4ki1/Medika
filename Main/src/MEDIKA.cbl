@@ -14,25 +14,31 @@
        DATA DIVISION.
        FILE SECTION.
        FD  PATIENT-FILE.
-       01  PATIENT-RECORD PIC X(150).
+       01  PATIENT-RECORD PIC X(300).
 
        WORKING-STORAGE SECTION.
        01  USER-CHOICE PIC X.
        01  EOF-FLAG PIC X VALUE "N".
        01  FILE-STATUS PIC XX.
-       01  SEARCH-NAME PIC X(30).
+       01  SEARCH-ID PIC X(30).
+      *> PERSONAL INFORMATION 
        01  WS-PATIENT-NAME PIC X(30).
        01  WS-STUDENT-NUMBER PIC X(15).
        01  WS-STUDENT-CYS PIC X(10).
        01  WS-DATE-OF-BIRTH PIC X(10).
        01  WS-PATIENT-AGE PIC 99.
        01  WS-PATIENT-SEX PIC X(1).
+       01  WS-PATIENT-CONTACT PIC 99999999999.
+       01  WS-PATIENT-EMAIL PIC X(50).
+      *> MEDICATION INFORMATION
        01  WS-HEALTH-CONDITION PIC X(30).
+       01  WS-MEDICATION-NAME PIC X(30).
+       01  WS-PROVIDER PIC X(30).
        01  WS-DATE-OF-VISIT PIC X(10).
+      *> HEADER PURPOSES
        01  NEW-LINE PIC X(1) VALUE X'0A'.
-       01  HEADER-MESSAGE PIC X(80) VALUE "MEDIKA PATIENT RECORD".
+       01  HEADER-MESSAGE PIC X(25) VALUE "MEDIKA PATIENT RECORD".
        01  FRA-ME PIC X(35) VALUE "===================================".*> for main header terminal-based design purposes
-       01  HEADER-WRITTEN PIC X(1) VALUE "N".
       *
        PROCEDURE DIVISION.
        MAIN-PARAGRAPH.
@@ -92,28 +98,43 @@
            DISPLAY "        ADD PATIENT RECORD".
            DISPLAY FRA-ME.
 
-           DISPLAY "Student ID [Ex.2023-1234-MN-0]: " WITH NO ADVANCING.
+           DISPLAY "PERSONAL INFORMATION."
+           DISPLAY "   Student ID: " WITH NO ADVANCING.
            ACCEPT WS-STUDENT-NUMBER.
 
-           DISPLAY "Name [Ex. Juan D. Cruz]: " WITH NO ADVANCING.
+           DISPLAY "   Full Name: " WITH NO ADVANCING.
            ACCEPT WS-PATIENT-NAME.
 
-           DISPLAY "Course/Section [Ex. BSIT 2-3]: " WITH NO ADVANCING.
+           DISPLAY "   Course/Section [N/A if none]: "WITH NO ADVANCING.
            ACCEPT WS-STUDENT-CYS.
 
-           DISPLAY "Date of Birth [yyyy/mm/dd]: " WITH NO ADVANCING.
+           DISPLAY "   Date of Birth [YYYY/MM/DD]: " WITH NO ADVANCING.
            ACCEPT WS-DATE-OF-BIRTH.
 
-           DISPLAY "Age: " WITH NO ADVANCING.
-           ACCEPT WS-PATIENT-AGE.
-
-           DISPLAY "Sex [F/M]: " WITH NO ADVANCING.
+           DISPLAY "   Sex [F/M]: " WITH NO ADVANCING.
            ACCEPT WS-PATIENT-SEX.
 
-           DISPLAY "Health Condition: " WITH NO ADVANCING.
+           DISPLAY "   Age: " WITH NO ADVANCING.
+           ACCEPT WS-PATIENT-AGE.
+
+           DISPLAY "EMERGENCY CONTACT INFORMATION."
+           DISPLAY "   Phone Number: " WITH NO ADVANCING.
+           ACCEPT WS-PATIENT-CONTACT.
+
+           DISPLAY "   Email Address:" WITH NO ADVANCING.
+           ACCEPT WS-PATIENT-EMAIL. 
+
+           DISPLAY "MEDICATION."
+           DISPLAY "   Health Condition: " WITH NO ADVANCING.
            ACCEPT WS-HEALTH-CONDITION.
 
-           DISPLAY "Date of Visit [yyyy/mm/dd]: " WITH NO ADVANCING.
+           DISPLAY "   Medication Name: " WITH NO ADVANCING.
+           ACCEPT WS-MEDICATION-NAME.
+
+           DISPLAY "   Prescribing Provider: " WITH NO ADVANCING.
+           ACCEPT WS-PROVIDER.
+
+           DISPLAY "   Date of Visit [YYYY/MM/DD]: " WITH NO ADVANCING.
            ACCEPT WS-DATE-OF-VISIT.
 
            DISPLAY FRA-ME.
@@ -130,8 +151,12 @@
                MOVE WS-DATE-OF-BIRTH TO PATIENT-RECORD(66:10)
                MOVE WS-PATIENT-AGE TO PATIENT-RECORD(81:2)
                MOVE WS-PATIENT-SEX TO PATIENT-RECORD(88:1)
-               MOVE WS-HEALTH-CONDITION TO PATIENT-RECORD(94:30)
-               MOVE WS-DATE-OF-VISIT TO PATIENT-RECORD(129:10)
+               MOVE WS-PATIENT-CONTACT TO PATIENT-RECORD (94:12)
+               MOVE WS-PATIENT-EMAIL TO PATIENT-RECORD(111:50)
+               MOVE WS-HEALTH-CONDITION TO PATIENT-RECORD(161:30)
+               MOVE WS-MEDICATION-NAME TO PATIENT-RECORD(196:30)
+               MOVE WS-PROVIDER TO PATIENT-RECORD(231:10)
+               MOVE WS-DATE-OF-VISIT TO PATIENT-RECORD(246:10)
                WRITE PATIENT-RECORD
            ELSE
                DISPLAY "Record not added.".
@@ -142,21 +167,40 @@
            OPEN INPUT PATIENT-FILE.
            READ PATIENT-FILE AT END MOVE "Y" TO EOF-FLAG.
            PERFORM UNTIL EOF-FLAG = "Y"
-               MOVE PATIENT-RECORD(1:30) TO WS-PATIENT-NAME
-               MOVE PATIENT-RECORD(31:15) TO WS-STUDENT-NUMBER
-               MOVE PATIENT-RECORD(51:30) TO WS-STUDENT-CYS
-               MOVE PATIENT-RECORD(66:10) TO WS-DATE-OF-BIRTH
-               MOVE PATIENT-RECORD(81:2) TO WS-PATIENT-AGE
-               MOVE PATIENT-RECORD(94:30) TO WS-HEALTH-CONDITION
-               MOVE PATIENT-RECORD (129:10) TO WS-DATE-OF-VISIT
-               DISPLAY "Patient Name: " WS-PATIENT-NAME
-               DISPLAY "Age: " WS-PATIENT-AGE
-               DISPLAY "Sex: " WS-PATIENT-SEX
-               DISPLAY "Date of Birth: " WS-DATE-OF-BIRTH
-               DISPLAY "Course/Section: " WS-STUDENT-CYS
-               DISPLAY "Student Number: " WS-STUDENT-NUMBER
-               DISPLAY "Health Condition: " WS-HEALTH-CONDITION
-               DISPLAY "Date of Visit: " WS-DATE-OF-VISIT
+               MOVE PATIENT-RECORD (1:30) TO WS-PATIENT-NAME
+               MOVE PATIENT-RECORD (31:15) TO WS-STUDENT-NUMBER
+               MOVE PATIENT-RECORD (51:30) TO WS-STUDENT-CYS
+               MOVE PATIENT-RECORD (66:10) TO WS-DATE-OF-BIRTH
+               MOVE PATIENT-RECORD (81:2) TO WS-PATIENT-AGE
+               MOVE PATIENT-RECORD (88:1) TO WS-PATIENT-SEX
+               MOVE PATIENT-RECORD (94:12) TO WS-PATIENT-CONTACT
+               MOVE PATIENT-RECORD (111:50) TO WS-PATIENT-EMAIL
+               MOVE PATIENT-RECORD (161:30) TO WS-HEALTH-CONDITION
+               MOVE PATIENT-RECORD (196:30) TO WS-MEDICATION-NAME
+               MOVE PATIENT-RECORD (231:10) TO WS-PROVIDER
+               MOVE PATIENT-RECORD (246:10) TO WS-DATE-OF-VISIT
+               DISPLAY FRA-ME
+               DISPLAY "PERSONAL INFORMATION."
+               DISPLAY FRA-ME
+               DISPLAY "   Patient Name: " WS-PATIENT-NAME
+               DISPLAY "   Age: " WS-PATIENT-AGE
+               DISPLAY "   Sex: " WS-PATIENT-SEX
+               DISPLAY "   Date of Birth: " WS-DATE-OF-BIRTH
+               DISPLAY "   Course/Section: " WS-STUDENT-CYS
+               DISPLAY "   Student Number: " WS-STUDENT-NUMBER
+               DISPLAY FRA-ME
+               DISPLAY "EMERGENCY CONTACT INFORMATION."
+               DISPLAY FRA-ME
+               DISPLAY "   Phone Number: " WS-PATIENT-CONTACT
+               DISPLAY "   Email Address: " WS-PATIENT-EMAIL
+               DISPLAY FRA-ME
+               DISPLAY "MEDICATION."
+               DISPLAY FRA-ME
+               DISPLAY "   Health Condition: " WS-HEALTH-CONDITION
+               DISPLAY "   Medication Provided: " WS-MEDICATION-NAME
+               DISPLAY "   Prescribing Provider: " WS-PROVIDER
+               DISPLAY "   Date of Visit: " WS-DATE-OF-VISIT
+               DISPLAY FRA-ME
                DISPLAY " "
                READ PATIENT-FILE AT END MOVE "Y" TO EOF-FLAG
            END-PERFORM.
@@ -164,30 +208,50 @@
       *
        SEARCH-PATIENT.
            OPEN INPUT PATIENT-FILE.
-           DISPLAY "Enter Patient Name to search: ".
-           ACCEPT SEARCH-NAME.
+           DISPLAY "Enter Patients' STUDENT ID to search: ".
+           ACCEPT SEARCH-ID.
+           
            READ PATIENT-FILE AT END MOVE "Y" TO EOF-FLAG.
+
            PERFORM UNTIL EOF-FLAG = "Y"
-               MOVE PATIENT-RECORD(1:30) TO WS-PATIENT-NAME
-               MOVE PATIENT-RECORD(31:10) TO WS-STUDENT-NUMBER
-               MOVE PATIENT-RECORD(41:30) TO WS-HEALTH-CONDITION
-               MOVE PATIENT-RECORD(71:10) TO WS-DATE-OF-VISIT
-               IF WS-PATIENT-NAME = SEARCH-NAME THEN
-               DISPLAY "Patient Name: " WS-PATIENT-NAME
-               DISPLAY "Age: " WS-PATIENT-AGE
-               DISPLAY "Sex: " WS-PATIENT-SEX
-               DISPLAY "Date of Birth: " WS-DATE-OF-BIRTH
-               DISPLAY "Course/Section: " WS-STUDENT-CYS
-               DISPLAY "Student Number: " WS-STUDENT-NUMBER
-               DISPLAY "Health Condition: " WS-HEALTH-CONDITION
-               DISPLAY "Date of Visit: " WS-DATE-OF-VISIT
+               MOVE PATIENT-RECORD (1:30) TO WS-PATIENT-NAME
+               MOVE PATIENT-RECORD (31:15) TO WS-STUDENT-NUMBER
+               MOVE PATIENT-RECORD (51:30) TO WS-STUDENT-CYS
+               MOVE PATIENT-RECORD (66:10) TO WS-DATE-OF-BIRTH
+               MOVE PATIENT-RECORD (81:2) TO WS-PATIENT-AGE
+               MOVE PATIENT-RECORD (88:1) TO WS-PATIENT-SEX
+               MOVE PATIENT-RECORD (94:12) TO WS-PATIENT-CONTACT
+               MOVE PATIENT-RECORD (111:50) TO WS-PATIENT-EMAIL
+               MOVE PATIENT-RECORD (161:30) TO WS-HEALTH-CONDITION
+               MOVE PATIENT-RECORD (196:30) TO WS-MEDICATION-NAME
+               MOVE PATIENT-RECORD (231:10) TO WS-PROVIDER
+               MOVE PATIENT-RECORD (246:10) TO WS-DATE-OF-VISIT
+              
+               IF WS-STUDENT-NUMBER = SEARCH-ID THEN
+                   DISPLAY FRA-ME
+                   DISPLAY "PERSONAL INFORMATION."
+                   DISPLAY "   Patient Name: " WS-PATIENT-NAME
+                   DISPLAY "   Age: " WS-PATIENT-AGE
+                   DISPLAY "   Sex: " WS-PATIENT-SEX
+                   DISPLAY "   Date of Birth: " WS-DATE-OF-BIRTH
+                   DISPLAY "   Course/Section: " WS-STUDENT-CYS
+                   DISPLAY "   Student Number: " WS-STUDENT-NUMBER
+                   DISPLAY "EMERGENCY CONTACT INFORMATION."
+                   DISPLAY "   Phone Number: " WS-PATIENT-CONTACT
+                   DISPLAY "   Email Address: " WS-PATIENT-EMAIL
+                   DISPLAY "MEDICATION."
+                   DISPLAY "   Health Condition: " WS-HEALTH-CONDITION
+                   DISPLAY "   Medication Provided: " WS-MEDICATION-NAME
+                   DISPLAY "   Prescribing Provider: " WS-PROVIDER
+                   DISPLAY "   Date of Visit: " WS-DATE-OF-VISIT
+                   DISPLAY FRA-ME
                    MOVE "Y" TO EOF-FLAG
                END-IF
+
                READ PATIENT-FILE AT END MOVE "Y" TO EOF-FLAG
            END-PERFORM.
-           CLOSE PATIENT-FILE.
-      *
 
+           CLOSE PATIENT-FILE.
       *
        UPDATE-PATIENT.
       * (Implementation for updating patient records)
