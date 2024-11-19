@@ -14,7 +14,7 @@
        DATA DIVISION.
        FILE SECTION.
        FD  PATIENT-FILE.
-       01  PATIENT-RECORD PIC X(80).
+       01  PATIENT-RECORD PIC X(150).
 
        WORKING-STORAGE SECTION.
        01  USER-CHOICE PIC X.
@@ -30,7 +30,9 @@
        01  WS-HEALTH-CONDITION PIC X(30).
        01  WS-DATE-OF-VISIT PIC X(10).
        01  NEW-LINE PIC X(1) VALUE X'0A'.
+       01  HEADER-MESSAGE PIC X(80) VALUE "MEDIKA PATIENT RECORD".
        01  FRA-ME PIC X(35) VALUE "===================================".*> for main header terminal-based design purposes
+       01  HEADER-WRITTEN PIC X(1) VALUE "N".
       *
        PROCEDURE DIVISION.
        MAIN-PARAGRAPH.
@@ -42,7 +44,6 @@
            DISPLAY "Good Day, Admin!".
            DISPLAY "What would you like to do?".
            PERFORM DISPLAY-MENU.
-           DISPLAY NEW-LINE
            PERFORM UNTIL USER-CHOICE = "x" OR USER-CHOICE = "X"
                ACCEPT USER-CHOICE
                EVALUATE USER-CHOICE
@@ -69,11 +70,11 @@
       *
        DISPLAY-MENU.
            DISPLAY NEW-LINE.
-           DISPLAY "a) Add New Patient Record".
-           DISPLAY "b) View All Patient Records".
-           DISPLAY "c) Search Patient Record".
-           DISPLAY "d) Update Patient Info".
-           DISPLAY "x) Exit Program".
+           DISPLAY "(a) Add New Patient Record".
+           DISPLAY "(b) View All Patient Records".
+           DISPLAY "(c) Search Patient Record".
+           DISPLAY "(d) Update Patient Info".
+           DISPLAY "(x) Exit Program".
            DISPLAY "Enter a letter to proceed: " WITH NO ADVANCING.
       *
        ADD-PATIENT.
@@ -91,39 +92,46 @@
            DISPLAY "        ADD PATIENT RECORD".
            DISPLAY FRA-ME.
 
-           DISPLAY "Student ID Number: " WITH NO ADVANCING.
+           DISPLAY "Student ID [Ex.2023-1234-MN-0]: " WITH NO ADVANCING.
            ACCEPT WS-STUDENT-NUMBER.
 
-           DISPLAY "Name (FN, MI, LN): " WITH NO ADVANCING.
+           DISPLAY "Name [Ex. Juan D. Cruz]: " WITH NO ADVANCING.
            ACCEPT WS-PATIENT-NAME.
 
-           DISPLAY "Course/Section: " WITH NO ADVANCING.
+           DISPLAY "Course/Section [Ex. BSIT 2-3]: " WITH NO ADVANCING.
            ACCEPT WS-STUDENT-CYS.
 
-           DISPLAY "Date of Birth (yyyy/mm/dd): " WITH NO ADVANCING.
+           DISPLAY "Date of Birth [yyyy/mm/dd]: " WITH NO ADVANCING.
            ACCEPT WS-DATE-OF-BIRTH.
 
            DISPLAY "Age: " WITH NO ADVANCING.
            ACCEPT WS-PATIENT-AGE.
 
-           DISPLAY "Assigned Sex at Birth: " WITH NO ADVANCING.
+           DISPLAY "Sex [F/M]: " WITH NO ADVANCING.
            ACCEPT WS-PATIENT-SEX.
 
-           DISPLAY "Enter Student Health Condition: " WITH NO ADVANCING.
+           DISPLAY "Health Condition: " WITH NO ADVANCING.
            ACCEPT WS-HEALTH-CONDITION.
 
-           DISPLAY "Date of Visit (yyyy/mm/dd): " WITH NO ADVANCING.
+           DISPLAY "Date of Visit [yyyy/mm/dd]: " WITH NO ADVANCING.
            ACCEPT WS-DATE-OF-VISIT.
 
            DISPLAY FRA-ME.
-           DISPLAY "Add New Record? (Y/N): " WITH NO ADVANCING.
+           DISPLAY "Add New Patient Record? [Y/N]: " WITH NO ADVANCING.
            ACCEPT USER-CHOICE.
 
-           IF USER-CHOICE = "Y"
+           IF USER-CHOICE = "Y" OR USER-CHOICE = "y"
+               WRITE PATIENT-RECORD
+               MOVE FRA-ME TO PATIENT-RECORD
+               WRITE PATIENT-RECORD
                MOVE WS-PATIENT-NAME TO PATIENT-RECORD(1:30)
-               MOVE WS-STUDENT-NUMBER TO PATIENT-RECORD(31:10)
-               MOVE WS-HEALTH-CONDITION TO PATIENT-RECORD(41:30)
-               MOVE WS-DATE-OF-VISIT TO PATIENT-RECORD(71:10)
+               MOVE WS-STUDENT-NUMBER TO PATIENT-RECORD(31:15)
+               MOVE WS-STUDENT-CYS TO PATIENT-RECORD(51:10)
+               MOVE WS-DATE-OF-BIRTH TO PATIENT-RECORD(66:10)
+               MOVE WS-PATIENT-AGE TO PATIENT-RECORD(81:2)
+               MOVE WS-PATIENT-SEX TO PATIENT-RECORD(88:1)
+               MOVE WS-HEALTH-CONDITION TO PATIENT-RECORD(94:30)
+               MOVE WS-DATE-OF-VISIT TO PATIENT-RECORD(129:10)
                WRITE PATIENT-RECORD
            ELSE
                DISPLAY "Record not added.".
@@ -135,9 +143,12 @@
            READ PATIENT-FILE AT END MOVE "Y" TO EOF-FLAG.
            PERFORM UNTIL EOF-FLAG = "Y"
                MOVE PATIENT-RECORD(1:30) TO WS-PATIENT-NAME
-               MOVE PATIENT-RECORD(31:10) TO WS-STUDENT-NUMBER
-               MOVE PATIENT-RECORD(41:30) TO WS-HEALTH-CONDITION
-               MOVE PATIENT-RECORD(71:10) TO WS-DATE-OF-VISIT
+               MOVE PATIENT-RECORD(31:15) TO WS-STUDENT-NUMBER
+               MOVE PATIENT-RECORD(51:30) TO WS-STUDENT-CYS
+               MOVE PATIENT-RECORD(66:10) TO WS-DATE-OF-BIRTH
+               MOVE PATIENT-RECORD(81:2) TO WS-PATIENT-AGE
+               MOVE PATIENT-RECORD(94:30) TO WS-HEALTH-CONDITION
+               MOVE PATIENT-RECORD (129:10) TO WS-DATE-OF-VISIT
                DISPLAY "Patient Name: " WS-PATIENT-NAME
                DISPLAY "Age: " WS-PATIENT-AGE
                DISPLAY "Sex: " WS-PATIENT-SEX
