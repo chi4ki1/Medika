@@ -8,13 +8,13 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT PATIENT-FILE ASSIGN TO
-           "/home/zelly/PATIENTS.dat"
+           "/home/zelly/PATIENTS.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
        FD  PATIENT-FILE.
-       01  PATIENT-RECORD PIC X(300).
+       01  PATIENT-RECORD PIC X(260).
 
        WORKING-STORAGE SECTION.
        01  USER-CHOICE PIC X.
