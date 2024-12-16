@@ -2,7 +2,6 @@
        PROGRAM-ID. MEDIKA.
        
        ENVIRONMENT DIVISION.
-       CONFIGURATION SECTION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT PATIENT-FILE ASSIGN TO 
@@ -19,7 +18,7 @@
            05  STUDENT-NUMBER      PIC X(20).
            05  PATIENT-NAME        PIC X(30).
            05  STUDENT-CYS         PIC X(30).
-           05  DATE-OF-BIRTH       PIC X(10).
+           05  DATE-OF-BIRTH       PIC X(15).
            05  PATIENT-AGE         PIC 99.
            05  PATIENT-SEX         PIC X(1).
            05  EMERGENCY-PHONE     PIC X(15).
@@ -34,7 +33,7 @@
            05  TEMP-STUDENT-NUMBER      PIC X(20).
            05  TEMP-PATIENT-NAME        PIC X(30).
            05  TEMP-STUDENT-CYS         PIC X(30).
-           05  TEMP-DATE-OF-BIRTH       PIC X(10).
+           05  TEMP-DATE-OF-BIRTH       PIC X(15).
            05  TEMP-PATIENT-AGE         PIC 99.
            05  TEMP-PATIENT-SEX         PIC X(1).
            05  TEMP-EMERGENCY-PHONE     PIC X(15).
@@ -49,15 +48,13 @@
        01  WS-EOF-FLAG             PIC X VALUE "N".
        01  FRA-ME                  PIC X(35) 
            VALUE "===================================".
-       01  DIVIDER                 PIC X(35) 
-           VALUE "———————————————————————————————————".
        01  NEW-LINE                PIC X VALUE X"0A".
        01  WS-EDIT-CHOICE         PIC X.
        01  PATIENT-DATA.
            05  WS-STUDENT-NUMBER    PIC X(20).
            05  WS-PATIENT-NAME      PIC X(30).
            05  WS-STUDENT-CYS       PIC X(30).
-           05  WS-DATE-OF-BIRTH     PIC X(10).
+           05  WS-DATE-OF-BIRTH     PIC X(15).
            05  WS-PATIENT-AGE       PIC 99.
            05  WS-PATIENT-SEX       PIC X(1).
            05  WS-EMERGENCY-PHONE   PIC X(15).
@@ -68,7 +65,6 @@
            05  WS-DATE-OF-VISIT     PIC X(11). 
        
        PROCEDURE DIVISION.
-
        MAIN-PARAGRAPH.
            PERFORM DISPLAY-MENU
            PERFORM UNTIL USER-CHOICE = "x" OR USER-CHOICE = "X"
@@ -117,9 +113,7 @@
            DISPLAY "        ADD PATIENT RECORD"
            DISPLAY FRA-ME
 
-           DISPLAY DIVIDER
            DISPLAY "PERSONAL INFORMATION."
-           DISPLAY DIVIDER
 
            DISPLAY "   Student ID: " WITH NO ADVANCING
            ACCEPT WS-STUDENT-NUMBER
@@ -134,18 +128,14 @@
            DISPLAY "   Age: " WITH NO ADVANCING
            ACCEPT WS-PATIENT-AGE
 
-           DISPLAY DIVIDER
            DISPLAY "EMERGENCY CONTACT INFORMATION."
-           DISPLAY DIVIDER
 
            DISPLAY "   Emergency Contact Phone: " WITH NO ADVANCING
            ACCEPT WS-EMERGENCY-PHONE
            DISPLAY "   Emergency Email Address: " WITH NO ADVANCING
            ACCEPT WS-EMERGENCY-EMAIL
 
-           DISPLAY DIVIDER
            DISPLAY "MEDICATION."
-           DISPLAY DIVIDER
 
            DISPLAY "   Health Condition: " WITH NO ADVANCING
            ACCEPT WS-HEALTH-CONDITION
@@ -155,7 +145,6 @@
            ACCEPT WS-PRESCRIBER
            DISPLAY "   Date of Visit [YYYY/MM/DD]: " WITH NO ADVANCING
            ACCEPT WS-DATE-OF-VISIT
-           DISPLAY FRA-ME
        
            MOVE WS-STUDENT-NUMBER TO STUDENT-NUMBER
            MOVE WS-PATIENT-NAME TO PATIENT-NAME
@@ -171,6 +160,7 @@
            MOVE WS-DATE-OF-VISIT TO DATE-OF-VISIT
 
            WRITE PATIENT-RECORD
+           DISPLAY FRA-ME.
            DISPLAY "Record successfully added!"
            CLOSE PATIENT-FILE.
            DISPLAY FRA-ME.
@@ -399,4 +389,4 @@
            CALL "SYSTEM" USING "clear"
            DISPLAY "Exiting Medika.".
            STOP RUN.
-           
+     
