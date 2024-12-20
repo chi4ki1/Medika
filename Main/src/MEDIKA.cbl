@@ -1,5 +1,12 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MEDIKA.
+       AUTHOR. JAYSON & NYZEL.
+       INSTALLATION. COBOLT CO.
+       DATE-WRITTEN. 2024-11-05.
+       DATE-COMPILED.2024-12-11.
+       SECURITY. Confidential.
+       REMARKS. Empowering Clinics: COBOL towards reliable healthcare management.
+       STATUS. Production.
        
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
@@ -19,8 +26,8 @@
            05  PATIENT-NAME        PIC X(30).
            05  STUDENT-CYS         PIC X(30).
            05  DATE-OF-BIRTH       PIC X(15).
-           05  PATIENT-AGE         PIC 99.
-           05  PATIENT-SEX         PIC X(1).
+           05  PATIENT-AGE         PIC X(5).
+           05  PATIENT-SEX         PIC X(5).
            05  EMERGENCY-PHONE     PIC X(15).
            05  EMERGENCY-EMAIL     PIC X(30).
            05  HEALTH-CONDITION    PIC X(30).
@@ -34,8 +41,8 @@
            05  TEMP-PATIENT-NAME        PIC X(30).
            05  TEMP-STUDENT-CYS         PIC X(30).
            05  TEMP-DATE-OF-BIRTH       PIC X(15).
-           05  TEMP-PATIENT-AGE         PIC 99.
-           05  TEMP-PATIENT-SEX         PIC X(1).
+           05  TEMP-PATIENT-AGE         PIC X(5).
+           05  TEMP-PATIENT-SEX         PIC X(5).
            05  TEMP-EMERGENCY-PHONE     PIC X(15).
            05  TEMP-EMERGENCY-EMAIL     PIC X(30).
            05  TEMP-HEALTH-CONDITION    PIC X(30).
@@ -55,8 +62,8 @@
            05  WS-PATIENT-NAME      PIC X(30).
            05  WS-STUDENT-CYS       PIC X(30).
            05  WS-DATE-OF-BIRTH     PIC X(15).
-           05  WS-PATIENT-AGE       PIC 99.
-           05  WS-PATIENT-SEX       PIC X(1).
+           05  WS-PATIENT-AGE       PIC X(5).
+           05  WS-PATIENT-SEX       PIC X(5).
            05  WS-EMERGENCY-PHONE   PIC X(15).
            05  WS-EMERGENCY-EMAIL   PIC X(30).
            05  WS-HEALTH-CONDITION  PIC X(30).
