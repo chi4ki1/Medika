@@ -7,6 +7,7 @@
        SECURITY. Confidential.
        REMARKS. Empowering Clinics: COBOL towards reliable healthcare management.
        STATUS. Production.
+       PURPOSE. Manage patient records and streamline clinic operations.
        
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
@@ -14,30 +15,33 @@
            SELECT PATIENT-FILE ASSIGN TO 
            "/home/zelly/PATIENTS.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
+               *> Holds patient records for reading and processing.
            SELECT TEMP-FILE ASSIGN TO 
            "/home/zelly/TEMP.txt"
                ORGANIZATION IS LINE SEQUENTIAL. 
+               *> Temporary file for safely updating records.
        
        DATA DIVISION.
        FILE SECTION.
        FD  PATIENT-FILE.
        01  PATIENT-RECORD.
-           05  STUDENT-NUMBER      PIC X(20).
-           05  PATIENT-NAME        PIC X(30).
-           05  STUDENT-CYS         PIC X(30).
-           05  DATE-OF-BIRTH       PIC X(15).
-           05  PATIENT-AGE         PIC X(5).
-           05  PATIENT-SEX         PIC X(5).
-           05  EMERGENCY-PHONE     PIC X(15).
-           05  EMERGENCY-EMAIL     PIC X(30).
-           05  HEALTH-CONDITION    PIC X(30).
-           05  MEDICATION-NAME     PIC X(30).
-           05  PRESCRIBER          PIC X(30).
-           05  DATE-OF-VISIT       PIC X(11). 
+               *> Structure for each patient’s stored data.
+           05  STUDENT-NUMBER      PIC X(20).                           *> Unique ID of the student.
+           05  PATIENT-NAME        PIC X(30).                           *> Full name of the patient.
+           05  STUDENT-CYS         PIC X(30).                           *> Course and section details.
+           05  DATE-OF-BIRTH       PIC X(15).                           *> Date of birth (YYYY/MM/DD).
+           05  PATIENT-AGE         PIC X(5).                            *> Age of the patient.
+           05  PATIENT-SEX         PIC X(5).                            *> Gender of the patient.
+           05  EMERGENCY-PHONE     PIC X(15).                           *> Emergency contact number.
+           05  EMERGENCY-EMAIL     PIC X(30).                           *> Emergency email address.
+           05  HEALTH-CONDITION    PIC X(30).                           *> Health condition description.
+           05  MEDICATION-NAME     PIC X(30).                           *> Prescribed medication name.
+           05  PRESCRIBER          PIC X(30).                           *> Name of the prescribing provider.
+           05  DATE-OF-VISIT       PIC X(11).                           *> Last visit date (YYYY/MM/DD).
        
-       FD TEMP-FILE.
-       01 TEMP-RECORD.
-           05  TEMP-STUDENT-NUMBER      PIC X(20).
+       FD TEMP-FILE.                                                    *> Temporary record for processing updates.
+       01 TEMP-RECORD.                                                  *> Temporary variables for input and editing operations.
+           05  TEMP-STUDENT-NUMBER      PIC X(20).                      
            05  TEMP-PATIENT-NAME        PIC X(30).
            05  TEMP-STUDENT-CYS         PIC X(30).
            05  TEMP-DATE-OF-BIRTH       PIC X(15).
@@ -72,7 +76,7 @@
            05  WS-DATE-OF-VISIT     PIC X(11). 
        
        PROCEDURE DIVISION.
-       MAIN-PARAGRAPH.
+       MAIN-PARAGRAPH.                                                  *> Main control loop for user interactions.
            PERFORM DISPLAY-MENU
            PERFORM UNTIL USER-CHOICE = "x" OR USER-CHOICE = "X"
                DISPLAY NEW-LINE
@@ -101,7 +105,7 @@
            STOP RUN.
        
        DISPLAY-MENU.
-           CALL "SYSTEM" USING "clear"
+           CALL "SYSTEM" USING "clear"                                  *> Clear screen and show the main menu.
            DISPLAY FRA-ME
            DISPLAY "      MEDIKA PATIENT RECORD SYSTEM"
            DISPLAY FRA-ME
@@ -113,7 +117,7 @@
            DISPLAY "d) Update Patient Info"
            DISPLAY "x) Exit Program".
        
-       ADD-PATIENT.
+       ADD-PATIENT.                                                     *> Collect and save a new patient's record.
            CALL "SYSTEM" USING "clear"
            OPEN EXTEND PATIENT-FILE
            DISPLAY FRA-ME
@@ -152,7 +156,7 @@
            ACCEPT WS-PRESCRIBER
            DISPLAY "   Date of Visit [YYYY/MM/DD]: " WITH NO ADVANCING
            ACCEPT WS-DATE-OF-VISIT
-       
+                                                                        *> Transfer input data to patient record structure.
            MOVE WS-STUDENT-NUMBER TO STUDENT-NUMBER
            MOVE WS-PATIENT-NAME TO PATIENT-NAME
            MOVE WS-STUDENT-CYS TO STUDENT-CYS
@@ -174,25 +178,25 @@
            DISPLAY "Add New Patient Record? [Y/N]: " WITH NO ADVANCING
            ACCEPT USER-CHOICE.
        
-           IF USER-CHOICE = "Y" OR USER-CHOICE = "y"
+           IF USER-CHOICE = "Y" OR USER-CHOICE = "y"                    *> Recursive prompt for adding another record.
                PERFORM ADD-PATIENT
            ELSE
                DISPLAY "Record not added.".
            PERFORM DISPLAY-MENU.
        
        VIEW-PATIENTS.
-           CALL "SYSTEM" USING "clear"
+           CALL "SYSTEM" USING "clear"                                  *> Clear the screen before displaying all records.
            OPEN INPUT PATIENT-FILE
            DISPLAY FRA-ME
            DISPLAY "      VIEW ALL PATIENT RECORDS"
            DISPLAY FRA-ME
-           MOVE "N" TO WS-EOF-FLAG
+           MOVE "N" TO WS-EOF-FLAG                                      *> Initialize end-of-file flag.
        
-           PERFORM UNTIL WS-EOF-FLAG = "Y"
+           PERFORM UNTIL WS-EOF-FLAG = "Y"                              *> Loop through all records in the file until EOF.
                READ PATIENT-FILE INTO PATIENT-RECORD
                    AT END
                        MOVE "Y" TO WS-EOF-FLAG
-                   NOT AT END
+                   NOT AT END                                           *> Display patient details for the current record.
                        DISPLAY "Student ID: " STUDENT-NUMBER
                        DISPLAY "Name: " PATIENT-NAME
                        DISPLAY "Course/Section: " STUDENT-CYS
@@ -210,31 +214,31 @@
                END-READ
            END-PERFORM
        
-           CLOSE PATIENT-FILE
+           CLOSE PATIENT-FILE                                           *> Return to the main menu after user acknowledges.
            DISPLAY "Press Enter to return to the main menu." 
            WITH NO ADVANCING
            ACCEPT USER-CHOICE. 
            PERFORM DISPLAY-MENU.
               
        SEARCH-PATIENT.
-           CALL "SYSTEM" USING "clear"
+           CALL "SYSTEM" USING "clear"                                  
            OPEN INPUT PATIENT-FILE
            DISPLAY FRA-ME
            DISPLAY "      SEARCH PATIENT RECORD"
            DISPLAY FRA-ME
-           DISPLAY "Enter Student ID to search: " WITH NO ADVANCING
+           DISPLAY "Enter Student ID to search: " WITH NO ADVANCING     *> Prompt the user for the Student ID to search.
            ACCEPT WS-STUDENT-NUMBER
            MOVE "N" TO WS-EOF-FLAG
        
-           PERFORM UNTIL WS-EOF-FLAG = "Y"
+           PERFORM UNTIL WS-EOF-FLAG = "Y"                              *> Loop through all records to find the matching Student ID.
                READ PATIENT-FILE INTO PATIENT-RECORD
                    AT END
                        MOVE "Y" TO WS-EOF-FLAG
-                       IF WS-EOF-FLAG = "Y"
+                       IF WS-EOF-FLAG = "Y"                             *> If EOF is reached without finding, display not found.
                            DISPLAY "Record not found."
             NOT AT END
                 IF STUDENT-NUMBER = WS-STUDENT-NUMBER
-                    DISPLAY "Student ID: " STUDENT-NUMBER
+                    DISPLAY "Student ID: " STUDENT-NUMBER               *> Display details of the matching patient.
                     DISPLAY "Name: " PATIENT-NAME
                     DISPLAY "Course/Section: " STUDENT-CYS
                     DISPLAY "Date of Birth: " DATE-OF-BIRTH
@@ -258,7 +262,9 @@
            ACCEPT USER-CHOICE
            PERFORM DISPLAY-MENU.          
               
-       UPDATE-PATIENT.
+       UPDATE-PATIENT.                                                  *> Code for updating a patient record
+           
+                                                                        *> Describe opening file(s), updating specific fields, and overwriting files
            CALL "SYSTEM" USING "clear"
            OPEN INPUT PATIENT-FILE
            OPEN OUTPUT TEMP-FILE 
@@ -312,7 +318,7 @@
            ACCEPT USER-CHOICE
            PERFORM DISPLAY-MENU.      
        
-       EDIT-RECORD. 
+       EDIT-RECORD.                                                     *> Provide details of editing a specific patient record, explaining the steps
            DISPLAY "   0. Student ID: " STUDENT-NUMBER
            DISPLAY "   1. Full Name: " PATIENT-NAME
            DISPLAY "   2. Course/Section: " STUDENT-CYS
@@ -326,7 +332,7 @@
            DISPLAY "Select the field to edit [0-9]: " 
                WITH NO ADVANCING
        
-           PERFORM GET-VALID-CHOICE. 
+           PERFORM GET-VALID-CHOICE.                                    *> Validate user input for selecting a specific field to update
        
            EVALUATE WS-EDIT-CHOICE
                WHEN "0"
@@ -394,6 +400,6 @@
        
        EXIT-PROGRAM.
            CALL "SYSTEM" USING "clear"
-           DISPLAY "Exiting Medika.".
+           DISPLAY "Exiting Medika.".                                   *> Display exit message and terminate the program.
            STOP RUN.
      
