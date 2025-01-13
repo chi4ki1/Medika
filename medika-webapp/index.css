@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins';
+}
+
+header {
+  background-image: linear-gradient(#003f8f, #1c68cb);
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: 'Sequel100Black-45';
+  src: url('assets/Sequel100Black-45.woff2') format('truetype'),
+       url('assets/ab80d41fb980ff40273bb0028779b41e.woff') format('woff'),
+       url('assets/Sequel100Black-45.ttf') format('truetype');
+}
+
+
+.navbar {
+  display: flex; /* Corrected from flexbox to flex */
+  flex-wrap: wrap;
+  justify-content: space-between; /* Space between elements */
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  float: left;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.login-input {
+  padding: 5px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 8px;
+}
+
+.login-button {
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #00bf63; /* Button color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.login-button:hover {
+  background-color: #00bf63; /* Darker button color on hover */
+}
+
+.nav-links {
+  font-family: 'Fredoka';
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  flex-grow: 1; /* Allow nav links to take available space */
+  justify-content: center; /* Center the nav links */
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00bf63; /* Change color on hover */
+}
+
+main {
+  padding: 25px;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle .bar {
+  height: 3px;
+  width: 25px;
+  background-color: #fff;
+  margin: 3px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background-color: #00bf63;
+  }
+
+  #grad {
+    background-image: linear-gradient(#003f8f, #04A4DE);
+  }
+
+  .nav-links.active {
+      display: flex;
+  }
+
+  .menu-toggle {
+      display: flex;
+  }
+}
