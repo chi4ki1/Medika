@@ -13,6 +13,7 @@ header {
   overflow: hidden;
 }
 
+
 @font-face {
   font-family: 'Sequel100Black-45';
   src: url('assets/Sequel100Black-45.woff2') format('truetype'),
@@ -89,6 +90,79 @@ main {
   padding: 25px;
 }
 
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Fullscreen height */
+  overflow: hidden; /* Prevent any overflow from containers */
+}
+
+.hero-content {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%; /* Match full height of the hero section */
+  text-align: center; /* Center-align text */
+}
+
+.bg-img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Push background behind text */
+}
+
+.hero-img {
+  position: fixed;
+  top: 20%;
+  left: 40%;
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+  z-index: -1; /* Push background behind text */
+}
+
+.hero-back {
+  position: fixed;
+  z-index: 1; /* Ensure text is above the background image */
+  width: 100%;
+  padding: 0 20px;
+  right: 0%;
+  top: 30%;
+}
+
+.hero-back h1 {
+  font-family: 'Fredoka';
+  font-size: 3.5rem; /* Massive text size based on viewport width */
+  font-weight: 900; /* Extra bold text */
+  text-align: left;
+  color: #19203e;
+  line-height: 1.1; /* Slightly tightened line spacing */
+  text-transform: uppercase;
+  margin: 0;
+  word-wrap: break-word; /* Ensures text doesn't overflow */
+}
+
+.hero-back p {
+  font-family: 'Poppins';
+  font-size: medium;
+  font-weight: lighter;
+  text-align: left;
+  color: #19203e;
+  line-height: 1.1; /* Slightly tightened line spacing */
+  padding-top: 2%;
+  word-wrap: break-word; /* Ensures text doesn't overflow */
+}
+
+@media (max-width: 768px) {
+  .hero-back h1 {
+      font-size: 3.5rem; /* Larger on smaller screens for better impact */
+  }
+}
+
 /* Mobile Menu */
 .menu-toggle {
   display: none;
@@ -117,6 +191,7 @@ main {
 
   #grad {
     background-image: linear-gradient(#003f8f, #04A4DE);
+    position: fixed;
   }
 
   .nav-links.active {
