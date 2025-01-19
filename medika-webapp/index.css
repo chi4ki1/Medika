@@ -16,6 +16,7 @@ body {
   font-family: 'Poppins', Helvetica;
 }
 
+
 header {
   background-image: linear-gradient(#003f8f, #1c68cb);
   overflow: hidden;
@@ -115,7 +116,6 @@ main {
   object-fit: cover;
   z-index: -1; /* Push background behind text */
 }
-
 .hero-img {
   position: absolute;
   top: 20%;
@@ -252,28 +252,35 @@ main {
   font-size: 3rem;
   font-size: large;
   font-weight: lighter;
-  text-align: justify;
   color: #19203e;
   padding-left: 15%;
   padding-right: 15%;
   line-height: 1.5; /* Slightly tightened line spacing */
-  padding-top: 3%;
+  padding-top: 1.5%;
   overflow: hidden;
 }
 
 .features-section {
+  padding-top: 2.5%;
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 45px;
   overflow: hidden;
+  border-radius: 14px;
+  z-index: 1111;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(#003f8f, #04A4DE);
+  box-shadow: 20px 20px 60px #f0efef, -20px -20px 60px #ffffff;
 }
 
 .features-container {
   display: flex; /* Aligns the divs horizontally */
   gap: 20px; /* Adds spacing between each feature */
   flex-wrap: wrap; /* Ensures the features wrap to the next row if needed */
-  justify-content: center; /* Centers the features within the container */
   overflow: hidden;
 }
 
@@ -320,12 +327,10 @@ main {
 }
 
 .add-logo img {
-  width: 100%;
   height: 100%;
   align-items: center;
   object-fit: contain; /* Ensures image scales proportionally without distortion */
 }
-
 .text-title {
   font-family: 'Fredoka', sans-serif;
   font-size: 1.5rem; /* Larger, uniform size for headings */
@@ -380,6 +385,7 @@ main {
     font-size: 2rem; /* Adjust for smaller screens */
 }
 }
+
 
 /* Mobile Menu */
 .menu-toggle {
