@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap">
+    <title>Patient Dashboard</title>
+    
+    <style>
+          body {
+            font-family: 'Poppins', Helvetica;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+       /* sidebar.css */
+       .sidebar {
+            width: 200px;
+            margin-right: 500px;
+            background-image: linear-gradient(#003f8f, #1c68cb);
+            font-family: 'Fredoka';
+            font-weight: 650;
+            letter-spacing: 1.4px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            border-top-right-radius: 45px;
+            border-bottom-right-radius: 45px;
+            transition: width 0.3s ease-in-out;
+            animation: slideIn 0.5s ease-out; /* Animation to slide in sidebar */
+        }
+        .sidebar a {
+            text-decoration: none;
+            height: 90px;
+            color: white;
+            font-size: 18px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .sidebar a img {
+            margin-top: 9px;
+            margin-right: 10px;
+            width: 60px;
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover effect */
+        .sidebar a:hover {
+            height: 15%;
+            width: 95%;
+            background-color: #fff;
+            -webkit-text-fill-color: #1c68cb;
+            border-radius: 15px;
+            padding: 10px;
+            transform: scale(1); /* Slightly enlarge the link on hover */
+        }
+
+        /* Active link styles */
+        .sidebar a.active {
+            height: 15%;
+            width: 95%;
+            background-color: #fff;
+            -webkit-text-fill-color: #1c68cb;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            padding: 10px;
+            transform: scale(1.3); /* Slightly enlarge the link on hover */
+        }
+
+        /* Profile section styling */
+        .profile {
+            width: auto;
+            opacity: 1.2;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out; /* Profile fade-in effect */
+        }
+
+        .profile img {
+            width: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile img:hover {
+            transform: scale(1.1); /* Profile image grows on hover */
+        }
+
+        .profile span {
+            display: block;
+            font-weight: bold;
+        }
+
+
+
+ /* Medika icon section styling */
+ .medika-logo {
+            width: auto;
+            opacity: 1.2;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out; /* Profile fade-in effect */
+        }
+
+        .medika-logo img {
+            margin-left: 690%;
+            margin-top: 30px;
+            width: 50px;
+            border-radius: 5%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .medika-logo img:hover {
+            transform: scale(1.1); /* Profile image grows on hover */
+        }
+
+        .medika-logo span {
+            margin-top: 5px;
+            display: block;
+            font-weight: bold;
+        }
+
+
+
+        /* Animation for the sidebar */
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-100%); /* Start from the left off-screen */
+            }
+            100% {
+                transform: translateX(0); /* Slide to normal position */
+            }
+        }
+
+        /* Fade-in animation for menu items */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End in normal position */
+            }
+        }
+
+        /* Dropdown menu animation */
+      /* Dropdown menu container */
+
+
+.dropdown {
+    position: absolute;
+    top: 87.3%; /* This ensures the dropdown appears below the profile */
+    left: 8%; /* Centers the dropdown relative to the profile */
+    transform: translateX(-50%); /* Corrects the positioning to truly center */
+    margin-top: 10px; /* Adds some space between the profile and the dropdown */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Dropdown icon (arrow) */
+.dropdown img {
+    cursor: pointer;
+    width: 40px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown img:hover {
+    transform: rotate(180deg); /* Rotate the arrow on hover */
+}
+
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 3px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            top: 100%; /* Position the dropdown below the profile image */
+            left: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: slideDown 0.3s ease-in-out; /* Dropdown slide-in animation */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        /* Animation for dropdown */
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px); /* Start from above */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End in normal position */
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .upload-box input[type="file"] {
+            margin: 10px 0;
+        }
+
+        .upload-box button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #0066CC;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-box button:hover {
+            background-color: #0066CC;
+        }
+
+
+
+        .main-content {
+            width: 79%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+.top-right-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.dots {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 10px);
+  grid-gap: 5px;
+}
+.dots span {
+  width: 10px;
+  height: 10px;
+  background-color: #1E88E5;
+  border-radius: 50%;
+}
+.patient-form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .main {
+            margin-left: -500px;
+            flex: 1;
+            background-color: #F4F6F8;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-content {
+            width: 80%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content h1 {
+            font-size: 2rem;
+            font-family: 'Fredoka';
+            font-weight: 650;
+            letter-spacing: 1.4px;
+            color: #0066CC;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        .patient-form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .patient-form input {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #bbb6b6;
+            border-radius: 5px;
+        }
+
+        .add-button {
+            grid-column: span 3;
+            font-family: Poppins;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            margin-top: 10px;
+            margin-left: 360px;
+            width: 300px;
+            padding: 15px;
+            background-image: linear-gradient(#003f8f, #1c68cb);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .add-button:hover {
+            background: #23c483;;
+            background-color: #23c483;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+
+        @media (max-width: 768px) {
+            .patient-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar">
+        <div>
+            <a href="add" id="addPatient" class="active">
+                <img src="{{ url_for('static', filename='assets\add-patient.png') }}" alt="Add Icon"> Add Patient
+            </a>
+            <a href="view" id="viewPatients">
+                <img src="{{ url_for('static', filename='assets\view-all.png') }}" alt="View Icon"> View All Patient Record
+            </a>
+            <a href="search" id="searchPatients">
+                <img src="{{ url_for('static', filename='assets\search-record.png') }}" alt="Search Icon"> Search Patient Record
+            </a>
+        </div>
+        <div>
+            <div class="profile">
+                <img src="{{ url_for('static', filename='assets/ICON/' + username + '.png') }}" 
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='ICON/' + username + '.jpg') }}';" 
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='ICON/' + username + '.jpeg') }}';" 
+                     alt="Profile Icon">
+                <span>{{ username }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <img src="{{ url_for('static', filename='assets/arrowdown.png') }}" alt="Dropdown Arrow" 
+             onclick="toggleDropdown()"> 
+        <div class="dropdown-content">
+            <a href="#" onclick="openOverlay()">Upload Profile</a>
+            <a href="logout">Sign Out</a>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-content">
+            <h1>STUDENT INFORMATION</h1>
+            <form method="POST" class="patient-form">
+                <div>
+                    <label>Student Number:</label>
+                    <input type="text" name="student_number" required>
+                </div>
+                <div>
+                    <label>Course/Year/Section:</label>
+                    <input type="text" name="cys" required>
+                </div>
+                <div>
+                    <label>Date of Visit:</label>
+                    <input type="date" name="visit_date" required>
+                </div>
+                <div>
+                    <label>Last Name:</label>
+                    <input type="text" name="last_name" required>
+                </div>
+                <div>
+                    <label>First Name:</label>
+                    <input type="text" name="first_name" required>
+                </div>
+                <div>
+                    <label>Middle Initial:</label>
+                    <input type="text" name="middle_initial" required>
+                </div>
+                <div>
+                    <label>Date of Birth:</label>
+                    <input type="date" name="dob" required>
+                </div>
+                <div>
+                    <label>Age:</label>
+                    <input type="number" name="age" required>
+                </div>
+                <div>
+                    <label>Sex:</label>
+                    <input type="text" name="sex" required>
+                </div>
+                <div>
+                    <label>Health Condition:</label>
+                    <input type="text" name="health_condition" required>
+                </div>
+                <div>
+                    <label>Medication Name:</label>
+                    <input type="text" name="medication_name" required>
+                </div>
+                <div>
+                    <label>Prescriber:</label>
+                    <input type="text" name="prescriber" required>
+                </div>
+                <div>
+                    <label>Emergency Contact:</label>
+                    <input type="text" name="emergency_contact" required>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="email" name="emergency_email" required>
+                </div>
+                <button type="submit" class="add-button">Add Patient</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        // Sidebar link event listeners
+        document.getElementById("addPatient").addEventListener("click", function () {
+            setActiveLink("addPatient");
+        });
+        document.getElementById("viewPatients").addEventListener("click", function () {
+            setActiveLink("viewPatients");
+        });
+        document.getElementById("searchPatients").addEventListener("click", function () {
+            setActiveLink("searchPatients");
+        });
+
+        // Set active link on sidebar
+        function setActiveLink(activeId) {
+            const links = document.querySelectorAll(".sidebar a");
+            links.forEach(link => {
+                link.classList.remove("active"); // Remove 'active' class from all links
+            });
+
+            // Add 'active' class to the clicked link
+            document.getElementById(activeId).classList.add("active");
+        }
+
+        // Toggle dropdown menu
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Open the overlay
+        function openOverlay() {
+            document.getElementById("overlay").style.display = "flex";
+        }
+
+        // Close the overlay
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // Handle file upload
+        document.getElementById("uploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("/upload-profile", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => {
+                    // Check if response is OK and is JSON
+                    if (!response.ok) {
+                        // If not OK, parse the JSON error or throw a generic error
+                        return response.json().then(error => {
+                            throw new Error(error.message || "Unexpected error occurred.");
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Display success message and close overlay
+                        showFlashMessage(data.message || "Uploaded successfully!");
+                        closeOverlay();
+                    } else {
+                        throw new Error(data.message || "Upload failed.");
+                    }
+                })
+                .catch(error => {
+                    // Display error message
+                    showFlashMessage(`Error: ${error.message}`, "error");
+                });
+        });
+
+        // Function to display flash message
+        function showFlashMessage(message, type = "success") {
+            const flashMessage = document.createElement("div");
+            flashMessage.textContent = message;
+            flashMessage.style.position = "fixed";
+            flashMessage.style.bottom = "20px";
+            flashMessage.style.left = "50%";
+            flashMessage.style.transform = "translateX(-50%)";
+            flashMessage.style.backgroundColor = type === "success" ? "#4CAF50" : "#f44336"; // Green for success, red for error
+            flashMessage.style.color = "white";
+            flashMessage.style.padding = "10px 20px";
+            flashMessage.style.borderRadius = "5px";
+            flashMessage.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+            flashMessage.style.zIndex = "10000";
+            document.body.appendChild(flashMessage);
+
+            // Remove flash message after 2.3 seconds
+            setTimeout(() => {
+                document.body.removeChild(flashMessage);
+            }, 2300);
+        }
+    </script>
+
+
+<script>
+    // Timers for warning and auto logout
+    let warningTimer;
+    let logoutTimer;
+
+    // Define inactivity time (2 minutes total)
+    const inactivityLimit = 600000; // 10 minutes in milliseconds
+    const warningDuration = 30000; // 30 seconds before logout
+
+    // Flag to track if the warning message is visible
+    let isWarningVisible = false;
+
+    // Reset timers on user interaction
+    function resetTimers() {
+        console.log("Activity detected. Resetting timers...");
+
+        // Clear any existing timers
+        clearTimeout(warningTimer);
+        clearTimeout(logoutTimer);
+
+        // If the warning message is visible, remove it
+        if (isWarningVisible) {
+            hideWarning();
+        }
+
+        // Set the warning timer (2 minutes - 10 seconds)
+        warningTimer = setTimeout(() => {
+            showWarning();
+        }, inactivityLimit - warningDuration);
+
+        // Set the logout timer (2 minutes)
+        logoutTimer = setTimeout(() => {
+            autoLogout();
+        }, inactivityLimit);
+    }
+
+    // Show the warning message
+    function showWarning() {
+        console.log("Showing warning message...");
+        isWarningVisible = true; // Set the flag to true
+
+        // Create and display the warning message
+        const warningMessage = document.createElement("div");
+        warningMessage.id = "warningMessage";
+        warningMessage.textContent =
+            "You will be logged out due to inactivity in 10 seconds. Interact to stay logged in.";
+        warningMessage.style.position = "fixed";
+        warningMessage.style.bottom = "20px";
+        warningMessage.style.left = "50%";
+        warningMessage.style.transform = "translateX(-50%)";
+        warningMessage.style.backgroundColor = "#fbc02d"; // Yellow warning color
+        warningMessage.style.color = "black";
+        warningMessage.style.padding = "10px 20px";
+        warningMessage.style.borderRadius = "5px";
+        warningMessage.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+        warningMessage.style.zIndex = "10000";
+
+        document.body.appendChild(warningMessage);
+    }
+
+    // Hide the warning message
+    function hideWarning() {
+        console.log("Hiding warning message...");
+        isWarningVisible = false; // Set the flag to false
+
+        // Remove the warning message if it exists
+        const warningMessage = document.getElementById("warningMessage");
+        if (warningMessage) {
+            document.body.removeChild(warningMessage);
+        }
+    }
+
+    // Automatically log out the user
+    function autoLogout() {
+        console.log("Logging out due to inactivity...");
+
+        // Remove the warning message if it exists
+        hideWarning();
+
+        // Redirect to the home page (logout)
+        window.location.href = "/logout";
+    }
+
+    // Add event listeners for user activity (mousemove, keydown, scroll, etc.)
+    document.addEventListener("mousemove", resetTimers);
+    document.addEventListener("keydown", resetTimers);
+    document.addEventListener("click", resetTimers);
+    document.addEventListener("scroll", resetTimers);
+
+    // Initialize the timers when the page loads
+    resetTimers();
+</script>
+
+</body>
+</html>

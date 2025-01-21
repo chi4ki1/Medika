@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap">
+    <title>Search Patient</title>
+    <style>
+        /* Styles (your provided CSS) */
+        body {
+            font-family: 'Poppins', Helvetica;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+
+        /* Medika icon section styling */
+ .medika-logo {
+            width: auto;
+            opacity: 1.2;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out; /* Profile fade-in effect */
+        }
+
+        .medika-logo img {
+            margin-left: 690%;
+            margin-top: 30px;
+            width: 50px;
+            border-radius: 5%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .medika-logo img:hover {
+            transform: scale(1.1); /* Profile image grows on hover */
+        }
+
+        .medika-logo span {
+            margin-top: 5px;
+            display: block;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 200px;
+            margin-right: 500px;
+            background-image: linear-gradient(#003f8f, #1c68cb);
+            font-family: 'Fredoka';
+            font-weight: 650;
+            letter-spacing: 1.4px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            border-top-right-radius: 45px;
+            border-bottom-right-radius: 45px;
+            transition: width 0.3s ease-in-out;
+            animation: slideIn 0.5s ease-out; /* Animation to slide in sidebar */
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            height: 90px;
+            color: white;
+            font-size: 18px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .sidebar a img {
+            margin-top: 9px;
+            margin-right: 10px;
+            width: 60px;
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            height: 15%;
+            width: 95%;
+            background-color: #fff;
+            -webkit-text-fill-color: #1c68cb;
+            border-radius: 15px;
+            padding: 10px;
+            transform: scale(1); /* Slightly enlarge the link on hover */
+        }
+
+        .sidebar a.active {
+            height: 20%;
+            width: 110%;
+            background-color: #fff;
+            -webkit-text-fill-color: #1c68cb;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-radius: 5px;
+            padding: 10px;
+            transform: scale(1.05);
+        }
+
+        .profile {
+            width: auto;
+            opacity: 1.2;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .profile img {
+            width: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile img:hover {
+            transform: scale(1.1);
+        }
+
+        .profile span {
+            display: block;
+            font-weight: bold;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 87.3%;
+            left: 8%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .dropdown img {
+            cursor: pointer;
+            width: 40px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown img:hover {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 3px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px 0 0 15px;
+        }
+
+        .form-container {
+            margin-left: -500px;
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        form input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        form button {
+            background-color: #006699;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #1e73be;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <a href="add" id="addPatient">
+                <img src="{{ url_for('static', filename='assets\add-patient.png') }}" alt="Add Icon"> Add Patient
+            </a>
+            <a href="view" id="viewPatients">
+                <img src="{{ url_for('static', filename='assets\view-all.png') }}" alt="View Icon"> View All Patient Record
+            </a>
+            <a href="search" id="searchPatients" class="active">
+                <img src="{{ url_for('static', filename='assets\search-record.png') }}" alt="Search Icon"> Search Patient Record
+            </a>
+        </div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='assets/ICON/' + username + '.png') }}" 
+                 onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/ICON/' + username + '.jpg') }}';" 
+                 alt="Profile Icon">
+            <span>{{ username }}</span>
+        </div>
+    </div>
+
+    <div class="medika-logo">
+        <img src="{{ url_for('static', filename='assets/medika-logo.png') }}" alt="Add Icon">
+    </div>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="{{ url_for('search_patient') }}" method="POST">
+                <label for="student_number">Enter student number:</label>
+                <input type="text" id="student_number" name="student_number" required>
+                <button type="submit">Search</button>
+            </form>
+            {% if patient %}
+                <div class="patient-details">
+                    <h2>Patient Details</h2>
+                    <p>Student ID: {{ patient.student_number }}</p>
+                    <p>Full Name: {{ patient.name }}</p>
+                    <p>Course/Section: {{ patient.cys }}</p>
+                    <p>Date of Birth: {{ patient.dob }}</p>
+                    <p>Age: {{ patient.age }}</p>
+                    <p>Sex: {{ patient.sex }}</p>
+                    <p>Emergency Phone: {{ patient.emergency_phone }}</p>
+                    <p>Emergency Email: {{ patient.emergency_email }}</p>
+                    <p>Health Condition: {{ patient.health_condition }}</p>
+                    <p>Medication Name: {{ patient.medication_name }}</p>
+                    <p>Prescriber: {{ patient.prescriber }}</p>
+                    <p>Date of Visit: {{ patient.visit_date }}</p>
+                </div>
+                {% elif error_message %}
+                <div class="error-message">
+                    <p>{{ error_message }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+<script>
+    // Sidebar link event listeners
+    document.getElementById("addPatient").addEventListener("click", function () {
+        setActiveLink("addPatient");
+    });
+    document.getElementById("viewPatients").addEventListener("click", function () {
+        setActiveLink("viewPatients");
+    });
+    document.getElementById("searchPatients").addEventListener("click", function () {
+        setActiveLink("searchPatients");
+    });
+
+    // Set active link on sidebar
+    function setActiveLink(activeId) {
+        const links = document.querySelectorAll(".sidebar a");
+        links.forEach(link => {
+            link.classList.remove("active"); // Remove 'active' class from all links
+        });
+
+        // Add 'active' class to the clicked link
+        document.getElementById(activeId).classList.add("active");
+    }
+
+    // Toggle dropdown menu
+    function toggleDropdown() {
+        const dropdown = document.querySelector('.dropdown');
+        dropdown.classList.toggle('show');
+    }
+
+    // Open the overlay
+    function openOverlay() {
+        document.getElementById("overlay").style.display = "flex";
+    }
+
+    // Close the overlay
+    function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    // Handle file upload
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch("/upload-profile", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                // Check if response is OK and is JSON
+                if (!response.ok) {
+                    // If not OK, parse the JSON error or throw a generic error
+                    return response.json().then(error => {
+                        throw new Error(error.message || "Unexpected error occurred.");
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Display success message and close overlay
+                    showFlashMessage(data.message || "Uploaded successfully!");
+                    closeOverlay();
+                } else {
+                    throw new Error(data.message || "Upload failed.");
+                }
+            })
+            .catch(error => {
+                // Display error message
+                showFlashMessage(`Error: ${error.message}`, "error");
+            });
+    });
+
+    // Function to display flash message
+    function showFlashMessage(message, type = "success") {
+        const flashMessage = document.createElement("div");
+        flashMessage.textContent = message;
+        flashMessage.style.position = "fixed";
+        flashMessage.style.bottom = "20px";
+        flashMessage.style.left = "50%";
+        flashMessage.style.transform = "translateX(-50%)";
+        flashMessage.style.backgroundColor = type === "success" ? "#4CAF50" : "#f44336"; // Green for success, red for error
+        flashMessage.style.color = "white";
+        flashMessage.style.padding = "10px 20px";
+        flashMessage.style.borderRadius = "5px";
+        flashMessage.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+        flashMessage.style.zIndex = "10000";
+        document.body.appendChild(flashMessage);
+
+        // Remove flash message after 2.3 seconds
+        setTimeout(() => {
+            document.body.removeChild(flashMessage);
+        }, 2300);
+    }
+
+</script>
+
+
+<script>
+    // Timers for warning and auto logout
+    let warningTimer;
+    let logoutTimer;
+
+    // Define inactivity time (2 minutes total)
+    const inactivityLimit = 600000; // 10 minutes in milliseconds
+    const warningDuration = 30000; // 30 seconds before logout
+
+    // Flag to track if the warning message is visible
+    let isWarningVisible = false;
+
+    // Reset timers on user interaction
+    function resetTimers() {
+        console.log("Activity detected. Resetting timers...");
+
+        // Clear any existing timers
+        clearTimeout(warningTimer);
+        clearTimeout(logoutTimer);
+
+        // If the warning message is visible, remove it
+        if (isWarningVisible) {
+            hideWarning();
+        }
+
+        // Set the warning timer (2 minutes - 10 seconds)
+        warningTimer = setTimeout(() => {
+            showWarning();
+        }, inactivityLimit - warningDuration);
+
+        // Set the logout timer (2 minutes)
+        logoutTimer = setTimeout(() => {
+            autoLogout();
+        }, inactivityLimit);
+    }
+
+    // Show the warning message
+    function showWarning() {
+        console.log("Showing warning message...");
+        isWarningVisible = true; // Set the flag to true
+
+        // Create and display the warning message
+        const warningMessage = document.createElement("div");
+        warningMessage.id = "warningMessage";
+        warningMessage.textContent =
+            "You will be logged out due to inactivity in 10 seconds. Interact to stay logged in.";
+        warningMessage.style.position = "fixed";
+        warningMessage.style.bottom = "20px";
+        warningMessage.style.left = "50%";
+        warningMessage.style.transform = "translateX(-50%)";
+        warningMessage.style.backgroundColor = "#fbc02d"; // Yellow warning color
+        warningMessage.style.color = "black";
+        warningMessage.style.padding = "10px 20px";
+        warningMessage.style.borderRadius = "5px";
+        warningMessage.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+        warningMessage.style.zIndex = "10000";
+
+        document.body.appendChild(warningMessage);
+    }
+
+    // Hide the warning message
+    function hideWarning() {
+        console.log("Hiding warning message...");
+        isWarningVisible = false; // Set the flag to false
+
+        // Remove the warning message if it exists
+        const warningMessage = document.getElementById("warningMessage");
+        if (warningMessage) {
+            document.body.removeChild(warningMessage);
+        }
+    }
+
+    // Automatically log out the user
+    function autoLogout() {
+        console.log("Logging out due to inactivity...");
+
+        // Remove the warning message if it exists
+        hideWarning();
+
+        // Redirect to the home page (logout)
+        window.location.href = "/logout";
+    }
+
+    // Add event listeners for user activity (mousemove, keydown, scroll, etc.)
+    document.addEventListener("mousemove", resetTimers);
+    document.addEventListener("keydown", resetTimers);
+    document.addEventListener("click", resetTimers);
+    document.addEventListener("scroll", resetTimers);
+
+    // Initialize the timers when the page loads
+    resetTimers();
+</script>
+
+</body>
+</html>
