@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap">
-    <title>Search Patient</title>
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap">
+        <title>Search Patient</title>
+        <style>
 
         body {
             font-family: 'Poppins', Helvetica;
@@ -16,8 +16,9 @@
             height: 100vh;
         }
 
-        /* Medika icon section styling */
- .medika-logo {
+               /* Medika icon section styling */
+            
+        .medika-logo {
             width: auto;
             opacity: 1.2;
             text-align: center;
@@ -42,7 +43,6 @@
             display: block;
             font-weight: bold;
         }
-
         /* sidebar.css */
         .sidebar {
             width: 200px;
@@ -116,11 +116,13 @@
             transform: scale(1.05); /* Slightly enlarge the active link */
         }
 
+        
+        /* Profile section styling */
         .profile {
             width: auto;
             opacity: 1.2;
             text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out; /* Profile fade-in effect */
         }
 
         .profile img {
@@ -131,7 +133,7 @@
         }
 
         .profile img:hover {
-            transform: scale(1.1);
+            transform: scale(1.1); /* Profile image grows on hover */
         }
 
         .profile span {
@@ -139,113 +141,151 @@
             font-weight: bold;
         }
 
-      
-        /* Dropdown menu animation */
-      /* Dropdown menu container */
-
-      .dropdown {
-    position: fixed;
-    top: 85%; /* This ensures the dropdown appears below the profile */
-    right: 75%; /* Centers the dropdown relative to the profile */
-    transform: translateX(-50%); /* Corrects the positioning to truly center */
-    margin-top: 10px; /* Adds some space between the profile and the dropdown */
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-/* Dropdown icon (arrow) */
-.dropdown img {
-    filter: brightness(0) invert(1);
-    cursor: pointer;
-    width: 40px;
-    height: 15px;
-    transition: transform 0.3s ease;
-}
-
-.dropdown img:hover {
-    transform: rotate(180deg); /* Rotate the arrow on hover */
-}
-
-        /* Dropdown content */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 120px;
-            box-shadow: 3px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 99;
-            top: 100%; /* Position the dropdown below the profile image */
-            left: 0;
-            border-radius: 8px;
-            overflow: hidden;
-            animation: slideDown 0.3s ease-in-out; /* Dropdown slide-in animation */
+ /* Medika icon section styling */
+ .medika-logo {
+            width: auto;
+            opacity: 1.2;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out; /* Profile fade-in effect */
         }
 
-        .dropdown-content a {
-            color: #1c68cb;
-            font-family: 'Poppins';
-            padding: 5px 10px;
-            text-decoration: none;
-            font-size: 14px;
+        .medika-logo img {
+            margin-left: 690%;
+            margin-top: 30px;
+            width: 50px;
+            border-radius: 5%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
         }
 
-        .dropdown.show .dropdown-content {
+        .medika-logo img:hover {
+            transform: scale(1.1); /* Profile image grows on hover */
+        }
+
+        .medika-logo span {
+            margin-top: 5px;
             display: block;
+            font-weight: bold;
         }
 
-        .content {
-            flex: 1;
-            padding: 30px;
-            display: flex;
+
+        /* Animation for the sidebar */
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-100%); /* Start from the left off-screen */
+            }
+            100% {
+                transform: translateX(0); /* Slide to normal position */
+            }
+        }
+
+        /* Fade-in animation for menu items */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End in normal position */
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
-            border-radius: 15px 0 0 15px;
         }
 
-        .form-container {
-            margin-left: -500px;
-            width: 100%;
-            max-width: 400px;
-            background-color: #ffffff;
+        .upload-box {
+            background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
 
-        form label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-            color: #333;
+        .upload-box input[type="file"] {
+            margin: 10px 0;
         }
 
-        form input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        form button {
-            background-image: linear-gradient(#003f8f, #1c68cb);
-            color: #ffffff;
-            padding: 10px 15px;
+        .upload-box button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #0066CC;
+            color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1rem;
             cursor: pointer;
+        }
+
+        .upload-box button:hover {
+            background-color: #0055AA;
+        }
+
+
+        .main-content {
+            width: 79%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+     
+
+            .content {
+            flex: 1;
+            border-radius: 15px 0 0 15px;
+            margin: auto;
+        }
+
+        .content h2 {
+            margin-left: -500px;
+            color: #1e73be;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            margin-left: -500px;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .details span {
             font-weight: bold;
         }
 
-        form button:hover {
+        .save-pdf-button {
+            display: inline-block;
+            margin-top: 20px;
+            background-image: linear-gradient(#003f8f, #1c68cb);
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .save-pdf-button:hover {
             background: #23c483;;
             background-color: #23c483;
             box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
             color: #fff;
             transform: translateY(-7px);
         }
+
         .back-link {
             display: inline-block;
             margin-top: 10px;
@@ -253,7 +293,26 @@
             color: #1e73be;
             text-decoration: none;
         }
-    </style>
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+.dots {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 10px);
+    grid-gap: 5px;
+    }
+.dots span {
+  width: 10px;
+  height: 10px;
+  background-color: #1E88E5;
+  border-radius: 50%;
+}
+    </style>     
 </head>
 <body>
     <div class="sidebar">
@@ -275,11 +334,25 @@
             </a>
         </div>
 
-        <div class="profile">
-            <img src="{{ url_for('static', filename='assets/ICON/' + username + '.png') }}" 
-                 onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/ICON/' + username + '.jpg') }}';" 
-                 alt="Profile Icon">
-            <span>{{ username }}</span>
+        <div>
+            <div class="profile">
+                <img src="{{ url_for('static', filename='assets/ICON/' + username + '.png') }}" 
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='ICON/' + username + '.jpg') }}';" 
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='ICON/' + username + '.jpeg') }}';" 
+                     alt="Profile Icon">
+                <span>{{ username }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="upload-box">
+            <h3>Upload Profile Picture</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="profilePicture" accept=".png, .jpg, .jpeg" required>
+                <button type="submit">Upload</button>
+            </form>
+            <button onclick="closeOverlay()">Cancel</button>
         </div>
     </div>
 
@@ -288,37 +361,36 @@
     </div>
 
     <div class="content">
-        <div class="form-container">
-            <form action="{{ url_for('search_patient') }}" method="POST">
-                <label for="student_number">Enter student number:</label>
-                <input type="text" id="student_number" name="student_number" required>
-                <button type="submit">Search</button>
-            </form>
-            {% if patient %}
-                <div class="patient-details">
-                    <h2>Patient Details</h2>
-                    <p>Student ID: {{ patient.student_number }}</p>
-                    <p>Full Name: {{ patient.name }}</p>
-                    <p>Course/Section: {{ patient.cys }}</p>
-                    <p>Date of Birth: {{ patient.dob }}</p>
-                    <p>Age: {{ patient.age }}</p>
-                    <p>Sex: {{ patient.sex }}</p>
-                    <p>Emergency Phone: {{ patient.emergency_phone }}</p>
-                    <p>Emergency Email: {{ patient.emergency_email }}</p>
-                    <p>Health Condition: {{ patient.health_condition }}</p>
-                    <p>Medication Name: {{ patient.medication_name }}</p>
-                    <p>Prescriber: {{ patient.prescriber }}</p>
-                    <p>Date of Visit: {{ patient.visit_date }}</p>
-                </div>
-                {% elif error_message %}
-                <div class="error-message">
-                    <p>{{ error_message }}</p>
-                </div>
-            {% endif %}
+        <h2>Patient Details:</h2>
+        <div class="details">
+            <p>Student ID: {{ patient.student_number }}</p>
+            <p>Full Name: {{ patient.name }}</p>
+            <p>Course/Section: {{ patient.cys }}</p>
+            <p>Date of Birth: {{ patient.dob }}</p>
+            <p>Age: {{ patient.age }}</p>
+            <p>Sex: {{ patient.sex }}</p>
+            <p>Emergency Phone: {{ patient.emergency_phone }}</p>
+            <p>Emergency Email: {{ patient.emergency_email }}</p>
+            <p>Health Condition: {{ patient.health_condition }}</p>
+            <p>Medication Name: {{ patient.medication_name }}</p>
+            <p>Prescriber: {{ patient.prescriber }}</p>
+            <p>Date of Visit: {{ patient.visit_date }}</p>       
         </div>
+        <a href="{{ url_for('generate_pdf', student_number=patient.student_number) }}" class="save-pdf-button">Save as PDF</a>
     </div>
 
-<script>
+    <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+</div>
+    <script>
     // Sidebar link event listeners
     document.getElementById("addPatient").addEventListener("click", function () {
         setActiveLink("addPatient");
@@ -413,9 +485,7 @@
             document.body.removeChild(flashMessage);
         }, 2300);
     }
-
 </script>
-
 
 <script>
     // Timers for warning and auto logout
@@ -509,6 +579,7 @@
     // Initialize the timers when the page loads
     resetTimers();
 </script>
+
 
 </body>
 </html>
