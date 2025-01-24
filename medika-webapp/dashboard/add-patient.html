@@ -16,8 +16,9 @@
             height: 100vh;
         }
 
-       /* sidebar.css */
-       .sidebar {
+
+        /* sidebar.css */
+        .sidebar {
             width: 200px;
             margin-right: 500px;
             background-image: linear-gradient(#003f8f, #1c68cb);
@@ -33,7 +34,9 @@
             border-bottom-right-radius: 45px;
             transition: width 0.3s ease-in-out;
             animation: slideIn 0.5s ease-out; /* Animation to slide in sidebar */
+            z-index: 1;
         }
+
         .sidebar a {
             text-decoration: none;
             height: 90px;
@@ -55,27 +58,36 @@
             transition: transform 0.3s ease;
         }
 
+        .sidebar-img.hover {
+            display: none;
+        }
+        
+        a:hover .sidebar-img.default {
+            display: none;
+        }
+        
+        a:hover .sidebar-img.hover {
+            display: inline;
+        }
+
+
         /* Hover effect */
         .sidebar a:hover {
-            height: 15%;
-            width: 95%;
+            width: 80%;
             background-color: #fff;
             -webkit-text-fill-color: #1c68cb;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 10px;
-            transform: scale(1); /* Slightly enlarge the link on hover */
+            transform: scale(1.3); /* Slightly enlarge the link on hover */
         }
 
         /* Active link styles */
         .sidebar a.active {
-            height: 15%;
-            width: 95%;
             background-color: #fff;
-            -webkit-text-fill-color: #1c68cb;
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
+            border-radius: 5px;
+            width: 235px;
             padding: 10px;
-            transform: scale(1.3); /* Slightly enlarge the link on hover */
+            transform: scale(1.05); /* Slightly enlarge the active link */
         }
 
         /* Profile section styling */
@@ -158,11 +170,10 @@
         /* Dropdown menu animation */
       /* Dropdown menu container */
 
-
-.dropdown {
-    position: absolute;
-    top: 87.3%; /* This ensures the dropdown appears below the profile */
-    left: 8%; /* Centers the dropdown relative to the profile */
+      .dropdown {
+    position: fixed;
+    top: 85%; /* This ensures the dropdown appears below the profile */
+    right: 75%; /* Centers the dropdown relative to the profile */
     transform: translateX(-50%); /* Corrects the positioning to truly center */
     margin-top: 10px; /* Adds some space between the profile and the dropdown */
     animation: fadeIn 0.5s ease-in-out;
@@ -170,16 +181,16 @@
 
 /* Dropdown icon (arrow) */
 .dropdown img {
+    filter: brightness(0) invert(1);
     cursor: pointer;
     width: 40px;
-    height: 20px;
+    height: 15px;
     transition: transform 0.3s ease;
 }
 
 .dropdown img:hover {
     transform: rotate(180deg); /* Rotate the arrow on hover */
 }
-
 
         /* Dropdown content */
         .dropdown-content {
@@ -197,8 +208,9 @@
         }
 
         .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
+            color: #1c68cb;
+            font-family: 'Poppins';
+            padding: 5px 10px;
             text-decoration: none;
             font-size: 14px;
         }
@@ -258,8 +270,6 @@
             background-color: #0066CC;
         }
 
-
-
         .main-content {
             width: 79%;
             background: white;
@@ -273,6 +283,7 @@
   top: 20px;
   right: 20px;
 }
+
 .dots {
   position: absolute;
   bottom: 20px;
@@ -281,12 +292,14 @@
   grid-template-columns: repeat(3, 10px);
   grid-gap: 5px;
 }
+
 .dots span {
   width: 10px;
   height: 10px;
   background-color: #1E88E5;
   border-radius: 50%;
 }
+
 .patient-form {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -373,16 +386,33 @@
     
     <div class="sidebar">
         <div>
-            <a href="add" id="addPatient" class="active">
-                <img src="{{ url_for('static', filename='assets\add-patient.png') }}" alt="Add Icon"> Add Patient
+            <a href="add" id="addPatient">
+                <img src="{{ url_for('static', filename='assets/add-patient.png') }}" class="sidebar-img default" alt="Add Patient">
+                <img src="{{ url_for('static', filename='assets/add-hover.png') }}" class="sidebar-img hover" alt="Add Patient">
+                Add Patient
             </a>
             <a href="view" id="viewPatients">
-                <img src="{{ url_for('static', filename='assets\view-all.png') }}" alt="View Icon"> View All Patient Record
+                <img src="{{ url_for('static', filename='assets/view-all.png') }}" class="sidebar-img default" alt="View Icon">
+                <img src="{{ url_for('static', filename='assets/view-hover.png') }}" class="sidebar-img hover" alt="View Icon">
+                View All Patient Record
             </a>
             <a href="search" id="searchPatients">
-                <img src="{{ url_for('static', filename='assets\search-record.png') }}" alt="Search Icon"> Search Patient Record
+                <img src="{{ url_for('static', filename='assets/search-record.png') }}" class="sidebar-img default" alt="Search Icon"> 
+                <img src="{{ url_for('static', filename='assets/search-hover.png') }}" class="sidebar-img hover" alt="Search Icon">
+                Search Patient Record
             </a>
+
+            <div class="dropdown">
+                <img src="{{ url_for('static', filename='assets/arrowdown.png') }}" alt="Dropdown Arrow" 
+                     onclick="toggleDropdown()"> 
+                <div class="dropdown-content">
+                    <a href="#" onclick="openOverlay()">Upload Profile</a>
+                    <a href="logout">Sign Out</a>
+                </div>
+            </div>
+
         </div>
+
         <div>
             <div class="profile">
                 <img src="{{ url_for('static', filename='assets/ICON/' + username + '.png') }}" 
@@ -391,15 +421,6 @@
                      alt="Profile Icon">
                 <span>{{ username }}</span>
             </div>
-        </div>
-    </div>
-
-    <div class="dropdown">
-        <img src="{{ url_for('static', filename='assets/arrowdown.png') }}" alt="Dropdown Arrow" 
-             onclick="toggleDropdown()"> 
-        <div class="dropdown-content">
-            <a href="#" onclick="openOverlay()">Upload Profile</a>
-            <a href="logout">Sign Out</a>
         </div>
     </div>
 
