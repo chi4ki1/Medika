@@ -321,15 +321,6 @@ main {
   z-index: 2;
 }
 
-@keyframes pillAnimation {
-  0%, 100% {
-      transform: translateY(0);
-  }
-  50% {
-      transform: translateY(-10px);
-  }
-}
-
 .features p {
   position: relative;
   font-family: 'Poppins';
@@ -346,7 +337,6 @@ main {
 }
 
 .features-section {
-  animation: pillAnimation 1.5s infinite; 
   width: 100%;
   height: auto;
   display: flex;
