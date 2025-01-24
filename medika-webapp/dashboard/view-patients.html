@@ -8,6 +8,7 @@
     <title>Patient Dashboard</title>
 
     <style>
+
           body {
             font-family: 'Poppins', Helvetica;
             margin: 0;
@@ -64,7 +65,7 @@
             -webkit-text-fill-color: #1c68cb;
             border-radius: 15px;
             padding: 10px;
-            transform: scale(1.3); /* Slightly enlarge the link on hover */
+            transform: scale(1); /* Slightly enlarge the link on hover */
         }
 
         /* Active link styles */
@@ -302,6 +303,9 @@
   border-radius: 50%;
 }
 
+.logo container {
+    float: right;
+}
 .main {
             flex-grow: 1;
             padding: 20px;
@@ -348,8 +352,24 @@
             background-color: #0056D2;
         }
 
+        .actions .edit-link:hover {
+            background: #23c483;;
+            background-color: #23c483;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+
         .actions .delete-link {
             background-color: #FF4D4D;
+        }
+
+        .actions .delete-link:hover {
+            background: #c4232b;;
+            background-color: #ff1154;
+            box-shadow: 0px 15px 20px rgba(229, 46, 46, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
         }
     </style>
 </head>
